@@ -43,7 +43,7 @@ iptables -A FORWARD -p icmp -j ACCEPT
 iptables -A FORWARD -p tcp --sport 22 -j ACCEPT
 iptables -A FORWARD -p tcp --dport 22 -j ACCEPT
 
-#LOG
+#LOG the dropped package
 iptables -N LOGGING
 iptables -A FORWARD -j LOGGING
 iptables -A LOGGING -m limit --limit 1/second -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
