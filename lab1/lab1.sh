@@ -3,15 +3,15 @@
 iptables -F
 iptables -X
 iptables -Z
+
 #clean NAT
 iptables -t nat -F
 iptables -t nat -X
 iptables -t nat -Z
 
-#Let NAT do translate form private ip to computerA's ip
+#Let NAT translate private ip into computerA's ip
 iptables -t nat -A POSTROUTING -s 192.168.100.0/24 -o eth0 -j MASQUERADE
 sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
-#echo "1" > /proc/sys/net/ipv4/ip_forward
 
 #default
 iptables -P INPUT  DROP
@@ -21,8 +21,6 @@ iptables -P OUTPUT  DROP
 #http
 iptables -A FORWARD -p tcp --sport 80 -j ACCEPT
 iptables -A FORWARD -p tcp --dport 80 -j ACCEPT
-#iptables -A FORWARD -p tcp --sport 443 -j ACCEPT
-#iptables -A FORWARD -p tcp --dport 443 -j ACCEPT
 
 #DNS
 iptables -A FORWARD -p udp --sport 53 -j ACCEPT
@@ -49,4 +47,3 @@ iptables -A FORWARD -p tcp --dport 22 -j ACCEPT
 iptables -N LOGGING
 iptables -A FORWARD -j LOGGING
 iptables -A LOGGING -m limit --limit 1/second -j LOG --log-prefix "IPTables-Dropped: " --log-level 4
-#iptables -A LOGGING -j DROP
