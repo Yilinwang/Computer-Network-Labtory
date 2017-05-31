@@ -8,8 +8,8 @@ wifi.init({
 });
  
 // Scan networks 
-signal_levels1 = 0
-signal_levels2 = 0
+var signal_levels1 = 0
+var signal_levels2 = 0
 for(var i=0; i < 10; i++){
     wifi.scan(function(err, networks) {
         if (err) {
@@ -23,11 +23,11 @@ for(var i=0; i < 10; i++){
                     signal_levels2 += networks[i].signal_level
                 }
             }
+            console.log('7', signal_levels1 / 10)
+            console.log('13', signal_levels2 / 10)
         }
     })
 }
-console.log('7', signal_levels1 / 10)
-console.log('13', signal_levels2 / 10)
 /*
 wifi.scan(function(err, networks) {
     if (err) {
