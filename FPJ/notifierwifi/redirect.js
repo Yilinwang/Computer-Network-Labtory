@@ -7,10 +7,12 @@ function ComputeDistance(signal_level_diff, freq)
 // b11: redirect to the web page of AP with max signal level
 function Redirect1(networks, webs)
 {
-    var min_distance = ComputeDistance(network[0].signal_level - network[0].transmit_signal_level, network[0].frequency);
+    var min_distance = ComputeDistance(networks[0].signal_level, networks[0].frequency);
+    //var min_distance = ComputeDistance(networks[0].signal_level - networks[0].transmit_signal_level, networks[0].frequency);
     var min_i = 0;
     for(var i=1; i<networks.length; i++){
-        var distance = ComputeDistance(network[i].signal_level - network[i].transmit_signal_level, network[i].frequency);
+        var distance = ComputeDistance(networks[i].signal_level, networks[i].frequency);
+        //var distance = ComputeDistance(networks[i].signal_level - networks[i].transmit_signal_level, networks[i].frequency);
         if(distance < min_distance){
             min_distance = distance;
             min_i = i;
@@ -44,8 +46,11 @@ function Redirect2(networks, webs)
 {
     var points = InitCoordinate(lengths);
     var distances = [];
-    for(var i=0; i<networks.length, i++){
+    for(var i=0; i<networks.length; i++){
         distances.push( ComputeDistance(network[i].signal_level - network[i].transmit_signal_level, network[i].frequency));
     }
     var coordinate = ComputeCoordinate(points, distances);
 }
+
+
+exports.Redirect1 = Redirect1

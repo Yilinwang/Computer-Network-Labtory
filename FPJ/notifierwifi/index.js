@@ -1,4 +1,5 @@
 var wifi = require('node-wifi');
+var func = require('./redirect');
  
 // Initialize wifi module 
 // Absolutely necessary even to set interface to null 
@@ -11,12 +12,19 @@ wifi.scan(function(err, networks) {
     if (err) {
         console.log(err);
     } else {
-        console.log(networks);
-        /*
+        var websites = []
+        for(var i = 0; i < networks.length; i++){
+            websites.push(i.toString());
+        }
+
+        var web = func.Redirect1(networks, websites)
+        console.log(websites.length)
+        console.log(web)
         for (var i = 0; i < networks.length; i++){
             console.log(networks[i].ssid, networks[i].frequency, networks[i].signal_level);
         }
 
+        /*
 		for (i in networks){
 			console.log(i);
 			for (key in networks[i]){
@@ -31,6 +39,7 @@ wifi.scan(function(err, networks) {
         // Problem wifi frequency (has a lot of channels)
     }
 });
+
 
 
 
