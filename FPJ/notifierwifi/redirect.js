@@ -55,3 +55,4 @@ function Redirect2(networks, webs)
 
 
 exports.Redirect1 = Redirect1
+exports.Redirect2 = Redirect2
