@@ -20,11 +20,12 @@ wifi.scan(function(err, networks) {
         var web = func.Redirect1(networks, websites)
         console.log(websites.length)
         console.log(web)
+
+        /*
         for (var i = 0; i < networks.length; i++){
             console.log(networks[i].ssid, networks[i].frequency, networks[i].signal_level);
         }
 
-        /*
 		for (i in networks){
 			console.log(i);
 			for (key in networks[i]){

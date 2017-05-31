@@ -12,6 +12,7 @@ function Redirect1(networks, webs)
     var min_i = 0;
     for(var i=1; i<networks.length; i++){
         var distance = ComputeDistance(networks[i].signal_level, networks[i].frequency);
+        console.log(networks[i].ssid, networks[i].signal_level, networks[i].frequency, distance)
         //var distance = ComputeDistance(networks[i].signal_level - networks[i].transmit_signal_level, networks[i].frequency);
         if(distance < min_distance){
             min_distance = distance;
