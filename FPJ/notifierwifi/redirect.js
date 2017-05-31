@@ -4,6 +4,12 @@ function ComputeDistance(signal_level_diff, freq)
     return Math.pow(10, 0.05 * signal_level_diff - 4.622) / freq
 }
 
+// @corridor
+function MyComputeDistance(signal_level_diff, freq)
+{
+    return Math.pow(10, 0.05 * signal_level_diff + 2.447) / freq
+}
+
 // b11: redirect to the web page of AP with max signal level
 function Redirect1(networks, webs)
 {
