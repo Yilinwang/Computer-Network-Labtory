@@ -25,7 +25,7 @@ function Redirect1(networks)
     var min_j = 0;
     for(var j=1; j<index.length; j++){
         var distance = MyComputeDistance(-15-networks[index[j]].signal_level, networks[index[j]].frequency);
-        console.log(networks[index[j]].ssid, networks[index[j]].signal_level, networks[index[j]].frequency, distance)
+        //console.log(networks[index[j]].ssid, networks[index[j]].signal_level, networks[index[j]].frequency, distance)
         //var distance = ComputeDistance(networks[i].signal_level - networks[i].transmit_signal_level, networks[i].frequency);
         if(distance < min_distance){
             min_distance = distance;
