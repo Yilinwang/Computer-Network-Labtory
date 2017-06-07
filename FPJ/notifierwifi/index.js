@@ -40,12 +40,20 @@ wifi.scan(function(err, networks) {
             websites.push(i.toString());
         }
 
+        newNetworks = []
         for (var i = 0; i < networks.length; i++){
-            if(networks[i].ssid == '7' || networks[i].ssid == '11' || networks[i].ssid == '12'){
-                console.log(networks[i].ssid, networks[i].frequency, networks[i].signal_level);
+            if(networks[i].ssid == '7' || networks[i].ssid == '12' || networks[i].ssid == '13'){
+                newNetworks.push(networks[i])
             }
         }
-        var websites_i = func.Redirect1(networks, websites)
+        newNetworks.sort(function(a, b){
+            return parseInt(a.ssid) > parseInt(b.ssid)
+        })
+        for (var i = 0; i < newNetworks.length; i++){
+            console.log(newNetworks[i].ssid, newNetworks[i].frequency, newNetworks[i].signal_level);
+        }
+
+        var websites_i = func.Redirect1(newNetworks)
         console.log(websites_i)
         /*
 
