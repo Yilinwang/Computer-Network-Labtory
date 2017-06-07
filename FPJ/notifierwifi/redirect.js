@@ -11,21 +11,27 @@ function MyComputeDistance(signal_level_diff, freq)
 }
 
 // b11: redirect to the web page of AP with max signal level
-function Redirect1(networks, webs)
+// return the index (in networks) of closest AP
+function Redirect1(networks)
 {
-    var min_distance = ComputeDistance(-15-networks[0].signal_level, networks[0].frequency);
+	var index = [];
+	for(var i=0; i<networks.length; i++){
+		if(networks[i].ssid == '7' || networks[i].ssid == '13')
+			index.push(i);
+	}
+    var min_distance = MyComputeDistance(-15-networks[index[0]].signal_level, networks[index[0]].frequency);
     //var min_distance = ComputeDistance(networks[0].signal_level - networks[0].transmit_signal_level, networks[0].frequency);
-    var min_i = 0;
-    for(var i=1; i<networks.length; i++){
-        var distance = ComputeDistance(-15-networks[i].signal_level, networks[i].frequency);
-        console.log(networks[i].ssid, networks[i].signal_level, networks[i].frequency, distance)
+    var min_j = 0;
+    for(var j=1; j<index.length; j++){
+        var distance = MyComputeDistance(-15-networks[index[j]].signal_level, networks[index[j]].frequency);
+        console.log(networks[index[j]].ssid, networks[index[j]].signal_level, networks[index[j]].frequency, distance)
         //var distance = ComputeDistance(networks[i].signal_level - networks[i].transmit_signal_level, networks[i].frequency);
         if(distance < min_distance){
             min_distance = distance;
-            min_i = i;
+            min_j = j;
         }
     }
-    return webs[min_i];
+    return min_j;
 }
 
 // AB, AC, BC -> a, b, c
