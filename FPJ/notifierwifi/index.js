@@ -53,8 +53,8 @@ wifi.scan(function(err, networks) {
             console.log(newNetworks[i].ssid, newNetworks[i].frequency, newNetworks[i].signal_level);
         }
 
-        var websites_i = func.Redirect1(newNetworks)
-        console.log(websites_i)
+        var ssid_ret = func.Redirect1(newNetworks)
+        console.log(ssid_ret)
         /*
 
 		for (i in networks){
