@@ -63,8 +63,31 @@ var websites = {'7': 'google.com.tw', '12': 'www.ntu.edu.tw', '13': 'mrtg.csie.n
 			console.log(getWebsiteBySavePoint(newNetworks));
 		}
 		*/
-			func2.saveCookies('0', newNetworks, 'www.google.com');
-			console.log(func2.getWebsiteBySavePoint(newNetworks));
+			//func2.saveCookies('0', newNetworks, 'www.google.com');
+			//console.log(func2.getWebsiteBySavePoint(newNetworks));
+			var readline = require('readline');
+			var log = console.log;
+
+			var rl = readline.createInterface({
+				input: process.stdin,
+				output: process.stdout
+			});
+
+			var infiniteReadline = function () {
+				rl.question('Command: ', function (input) {
+					if(input[0] == 's'){
+						console.log(input);
+						func2.saveCookies('0', newNetworks, 'www.google.com');
+					}
+					else if(input[0] == 'g'){
+						console.log(input);
+						console.log(getWebsiteBySavePoint(newNetworks));
+					}
+					infiniteReadline(); //Calling this function again to ask new question
+				});
+			};
+
+			infiniteReadline(); //we have to actually start our recursion somehow
 	}});
 
 }
