@@ -25,10 +25,10 @@ SavePoint.compare = function(sp1, sp2){
 	for(let key of allkeys){
 		var amp1 = 0, amp2 = 0;
 		if(sp1.wifiAmps[key]!=null){
-			amp1 = Math.exp(sp1.wifiAmps[key]/10);
+			amp1 = Math.power(10, sp1.wifiAmps[key]/10);
 		}
 		if(sp2.wifiAmps[key]!=null){
-			amp2 = Math.exp(sp1.wifiAmps[key]/10);
+			amp2 = Math.power(10, sp1.wifiAmps[key]/10);
 		}
 		dot += (amp1-amp2)*(amp1-amp2);
 	}
