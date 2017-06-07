@@ -50,14 +50,15 @@ function ComputeCoordinate(points, distances)
 }
 
 // b12: compute current location and redirect to corresponding web page
-function Redirect2(networks, webs)
+function Redirect2(networks, lengths)
 {
     var points = InitCoordinate(lengths);
     var distances = [];
     for(var i=0; i<networks.length; i++){
-        distances.push( ComputeDistance(network[i].signal_level - network[i].transmit_signal_level, network[i].frequency));
+        distances.push( MyComputeDistance(-15-network[i].signal_level, network[i].frequency));
     }
-    var coordinate = ComputeCoordinate(points, distances);
+    var coordinate = MyComputeCoordinate(points, distances);
+    console.log(coordinate[0], coordinate[1]);
 }
 
 
