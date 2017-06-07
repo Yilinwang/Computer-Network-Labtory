@@ -4,22 +4,29 @@ function ComputeDistance(signal_level_diff, freq)
     return Math.pow(10, 0.05 * signal_level_diff - 4.622) / freq
 }
 
-// b11: redirect to the web page of AP with max signal level
-function Redirect1(networks, webs)
+// @corridor
+function MyComputeDistance(signal_level_diff, freq)
 {
-    var min_distance = ComputeDistance(-15-networks[0].signal_level, networks[0].frequency);
+    return Math.pow(10, 0.05 * signal_level_diff + 2.447) / freq
+}
+
+// b11: redirect to the web page of AP with max signal level
+// return ssid of closest AP
+function Redirect1(networks)
+{
+	var min_distance = MyComputeDistance(-15-networks[0].signal_level, networks[0].frequency);
     //var min_distance = ComputeDistance(networks[0].signal_level - networks[0].transmit_signal_level, networks[0].frequency);
-    var min_i = 0;
-    for(var i=1; i<networks.length; i++){
-        var distance = ComputeDistance(-15-networks[i].signal_level, networks[i].frequency);
-        console.log(networks[i].ssid, networks[i].signal_level, networks[i].frequency, distance)
+    var min_j = 0;
+    for(var j=1; j<networks.length; j++){
+        var distance = MyComputeDistance(-15-networks[j].signal_level, networks[j].frequency);
+        //console.log(networks[index[j]].ssid, networks[index[j]].signal_level, networks[index[j]].frequency, distance)
         //var distance = ComputeDistance(networks[i].signal_level - networks[i].transmit_signal_level, networks[i].frequency);
         if(distance < min_distance){
             min_distance = distance;
-            min_i = i;
+            min_j = j;
         }
     }
-    return webs[min_i];
+    return networks[min_j].ssid;
 }
 
 // AB, AC, BC -> a, b, c
@@ -43,14 +50,15 @@ function ComputeCoordinate(points, distances)
 }
 
 // b12: compute current location and redirect to corresponding web page
-function Redirect2(networks, webs)
+function Redirect2(networks, lengths)
 {
     var points = InitCoordinate(lengths);
     var distances = [];
     for(var i=0; i<networks.length; i++){
-        distances.push( ComputeDistance(network[i].signal_level - network[i].transmit_signal_level, network[i].frequency));
+        distances.push( MyComputeDistance(-15-network[i].signal_level, network[i].frequency));
     }
-    var coordinate = ComputeCoordinate(points, distances);
+    var coordinate = MyComputeCoordinate(points, distances);
+    console.log(coordinate[0], coordinate[1]);
 }
 
 
