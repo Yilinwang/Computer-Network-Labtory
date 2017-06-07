@@ -1,26 +1,12 @@
-
-var MAX_WIFI = 10;
-var ssid = [100, 130, 200, 300, 404, 999, 870, 940, 987, 900];
-var wifiAmpMax = [100, 100, 100, 100, 100, 100, 100, 100, 100, 100];
-var website = ["", "", "", "", "", "", "", "", "", ""];
-
 var savePoints = {};
-/*
-var WifiInfo = function(){
-	var self = this;
-	self.size = 0;
-	self.ssid = [];
-	self.wifiAmpMax = [];
-	self.website = [];
-}
-*/
+
 //class SavePoint
-var SavePoint = function(wifiAmps){
+var SavePoint = function(network){
 	var self = this;
-	self.wifiAmps = [];
+	self.wifiAmps = {};
 	self.website = "";
-	for(var i=0;i<MAX_WIFI;i++){
-		self.wifiAmps.push(wifiAmps[i])
+	for(var i=0;i<network.length;i++){
+		self.wifiAmps.push(network.signal_level)
 	}
 	self.bind = function(website){
 		self.website = website;
@@ -29,44 +15,28 @@ var SavePoint = function(wifiAmps){
 //inner product
 SavePoint.compare = function(sp1, sp2){
 	var dot = 0;
-	for(var i=0;i<MAX_WIFI;i++){
-		dot += (sp1.wifiAmps[i] - sp2.wifiAmps[i]) * (sp1.wifiAmps[i] - sp2.wifiAmps[i]);
+	var allkeys = new Set();
+	for(var key in sp1.wifiAmps){
+		allkeys.add(key);
+	}
+	for(var key in sp2.wifiAmps){
+		allkeys.add(key);
+	}
+	for(let key of allkeys){
+		var amp1 = 0, amp2 = 0;
+		if(sp1.wifiAmps[key]!=null){
+			amp1 = Math.exp(sp1.wifiAmps[key]/10);
+		}
+		if(sp2.wifiAmps[key]!=null){
+			amp2 = Math.exp(sp1.wifiAmps[key]/10);
+		}
+		dot += (amp1-amp2)*(amp1-amp2);
 	}
 	return dot;
 }
 
-function newWifiAmps(ssid1, wifiAmp1, ssid2, wifiAmp2, ssid3, wifiAmp3){
-	var wifiAmps = [];
-	var i1 = ssid.indexOf(ssid1);
-	var i2 = ssid.indexOf(ssid2);
-	var i3 = ssid.indexOf(ssid3);
-	for(var i=0;i<MAX_WIFI;i++){
-		wifiAmps[i] = 0;
-	}
-	wifiAmps[i1] = wifiAmp1;
-	wifiAmps[i2] = wifiAmp2;
-	wifiAmps[i3] = wifiAmp3;
-	return wifiAmps;
-}
-
-function getWebsiteByWifi(ssid1, wifiAmp1, ssid2, wifiAmp2, ssid3, wifiAmp3){
-	var wifiAmps = newWifiAmps(ssid1, wifiAmp1, ssid2, wifiAmp2, ssid3, wifiAmp3);
-	var wifiRelativeAmp = [];
-	var max = 0;
-	var maxId = -1;
-	for(var i=0;i<MAX_WIFI;i++){
-		wifiRelativeAmps[i] = wifiAmps[i]/wifiAmpMax[i];
-		if(wifiRelativeAmps[i] > max){
-			max = wifiRelativeAmps[i];
-			maxId = i;
-		}
-	}
-	return website[maxId];
-}
-
-function getWebsiteBySavePoint(ssid1, wifiAmp1, ssid2, wifiAmp2, ssid3, wifiAmp3){
-	var wifiAmps = newWifiAmps(ssid1, wifiAmp1, ssid2, wifiAmp2, ssid3, wifiAmp3);
-	var savePoint = new SavePoint(wifiAmps);
+function getWebsiteBySavePoint(network){
+	var savePoint = new SavePoint(network);
 	//find the one that matches
 	var min = 1000000;
 	var minSavePoint = "";
@@ -80,7 +50,11 @@ function getWebsiteBySavePoint(ssid1, wifiAmp1, ssid2, wifiAmp2, ssid3, wifiAmp3
 	return savePoints[minSavePoint].website;
 }
 
-function saveCookies(){
+function saveCookies(name, network, website){
+	var savePoint = new SavePoint(network);
+	savePoint.bind(website);
+	savePoints[name] = savePoint;
+	
 	var data = JSON.stringify(savePoints);
 	var expires = new Date();
 	expires.setTime(expires.getTime() + 10*365*24*60*60*1000);
@@ -101,5 +75,5 @@ function loadCookies(){
 			}
 		}
 	}
-	return sp;
+	savePoints = sp;
 }
