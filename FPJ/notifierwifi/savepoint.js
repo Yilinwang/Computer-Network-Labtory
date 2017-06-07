@@ -6,7 +6,7 @@ var SavePoint = function(network){
 	self.wifiAmps = {};
 	self.website = "";
 	for(var i=0;i<network.length;i++){
-		self.wifiAmps.push(network.signal_level)
+		self.wifiAmps[network[i].ssid] = network[i].signal_level;
 	}
 	self.bind = function(website){
 		self.website = website;
@@ -25,10 +25,10 @@ SavePoint.compare = function(sp1, sp2){
 	for(let key of allkeys){
 		var amp1 = 0, amp2 = 0;
 		if(sp1.wifiAmps[key]!=null){
-			amp1 = Math.power(10, sp1.wifiAmps[key]/10);
+			amp1 = Math.pow(10, sp1.wifiAmps[key]/10);
 		}
 		if(sp2.wifiAmps[key]!=null){
-			amp2 = Math.power(10, sp1.wifiAmps[key]/10);
+			amp2 = Math.pow(10, sp1.wifiAmps[key]/10);
 		}
 		dot += (amp1-amp2)*(amp1-amp2);
 	}

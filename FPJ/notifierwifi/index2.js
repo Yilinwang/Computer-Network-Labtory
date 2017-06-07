@@ -1,7 +1,7 @@
 var wifi = require('node-wifi');
 var func = require('./redirect');
-var func2 = require('./savpoint.js')
-var open = require('open');
+var func2 = require('./savepoint.js')
+//var open = require('open');
  
 // Initialize wifi module 
 // Absolutely necessary even to set interface to null 
@@ -35,7 +35,6 @@ for(var i=0; i < 10; i++){
 
 var websites = {'7': 'google.com.tw', '12': 'www.ntu.edu.tw', '13': 'mrtg.csie.ntu.edu.tw'}
 
-while(True)
 {
 	wifi.scan(function(err, networks) {
     if (err) {
@@ -53,17 +52,23 @@ while(True)
         for (var i = 0; i < newNetworks.length; i++){
             console.log(newNetworks[i].ssid, newNetworks[i].frequency, newNetworks[i].signal_level)
         }
-		
+	/*
 		const readline = require('readline');
 		if(readline[0] == 's'){
+			console.log(readline);
 			func2.saveCookies('0', newNetworks, 'www.google.com');
 		}
 		else if(readline[0] == 'g'){
+			console.log(readline);
 			console.log(getWebsiteBySavePoint(newNetworks));
 		}
+		*/
+			func2.saveCookies('0', newNetworks, 'www.google.com');
+			console.log(func2.getWebsiteBySavePoint(newNetworks));
 	}});
-}
 
+}
+/*
 wifi.scan(function(err, networks) {
     if (err) {
         console.log(err);
@@ -88,9 +93,9 @@ wifi.scan(function(err, networks) {
         open(websites[ssid_ret], 'google-chrome', function (err) {
             if ( err ) throw err;    
         });
-        */
+        
 
-        /*
+        
 
 		for (i in networks){
 			console.log(i);
@@ -98,11 +103,11 @@ wifi.scan(function(err, networks) {
 				console.log( key + ": " + networks[i][key]);
 			}
 		}
-        */
+        
 
     }
 });
-
+*/
 
 
 
