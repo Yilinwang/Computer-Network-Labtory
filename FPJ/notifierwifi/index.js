@@ -8,6 +8,7 @@ wifi.init({
 });
  
 // Scan networks 
+/*
 var signal_levels1 = 0
 var signal_levels2 = 0
 for(var i=0; i < 10; i++){
@@ -28,7 +29,8 @@ for(var i=0; i < 10; i++){
         }
     })
 }
-/*
+*/
+
 wifi.scan(function(err, networks) {
     if (err) {
         console.log(err);
@@ -38,11 +40,14 @@ wifi.scan(function(err, networks) {
             websites.push(i.toString());
         }
 
-        //var web = func.Redirect1(networks, websites)
-
         for (var i = 0; i < networks.length; i++){
-            console.log(networks[i].ssid, networks[i].frequency, networks[i].signal_level);
+            if(networks[i].ssid == '7' || networks[i].ssid == '11' || networks[i].ssid == '12'){
+                console.log(networks[i].ssid, networks[i].frequency, networks[i].signal_level);
+            }
         }
+        var websites_i = func.Redirect1(networks, websites)
+        console.log(websites_i)
+        /*
 
 		for (i in networks){
 			console.log(i);
@@ -50,14 +55,10 @@ wifi.scan(function(err, networks) {
 				console.log( key + ": " + networks[i][key]);
 			}
 		}
+        */
 
-        // TODO: Filter SSID (only CSIE AP)
-
-        // TODO: Select max 3
-        // Problem wifi frequency (has a lot of channels)
     }
 });
-*/
 
 
 
