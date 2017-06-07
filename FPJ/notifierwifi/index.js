@@ -1,5 +1,6 @@
 var wifi = require('node-wifi');
 var func = require('./redirect');
+var open = require('open');
  
 // Initialize wifi module 
 // Absolutely necessary even to set interface to null 
@@ -31,15 +32,12 @@ for(var i=0; i < 10; i++){
 }
 */
 
+var websites = {'7': 'google.com.tw', '12': 'www.ntu.edu.tw', '13': 'mrtg.csie.ntu.edu.tw'}
+
 wifi.scan(function(err, networks) {
     if (err) {
         console.log(err);
     } else {
-        var websites = []
-        for(var i = 0; i < networks.length; i++){
-            websites.push(i.toString());
-        }
-
         newNetworks = []
         for (var i = 0; i < networks.length; i++){
             if(networks[i].ssid == '7' || networks[i].ssid == '12' || networks[i].ssid == '13'){
@@ -50,11 +48,15 @@ wifi.scan(function(err, networks) {
             return parseInt(a.ssid) > parseInt(b.ssid)
         })
         for (var i = 0; i < newNetworks.length; i++){
-            console.log(newNetworks[i].ssid, newNetworks[i].frequency, newNetworks[i].signal_level);
+            console.log(newNetworks[i].ssid, newNetworks[i].frequency, newNetworks[i].signal_level)
         }
 
         var ssid_ret = func.Redirect1(newNetworks)
         console.log(ssid_ret)
+        open(websites[ssid_ret], 'google-chrome', function (err) {
+            if ( err ) throw err;    
+        });
+
         /*
 
 		for (i in networks){
