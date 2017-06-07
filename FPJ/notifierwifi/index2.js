@@ -32,7 +32,6 @@ for(var i=0; i < 10; i++){
     })
 }
 */
-
 var websites = {'7': 'google.com.tw', '12': 'www.ntu.edu.tw', '13': 'mrtg.csie.ntu.edu.tw'}
 
 {
@@ -72,16 +71,17 @@ var websites = {'7': 'google.com.tw', '12': 'www.ntu.edu.tw', '13': 'mrtg.csie.n
 				input: process.stdin,
 				output: process.stdout
 			});
-
+			var count=0;
 			var infiniteReadline = function () {
 				rl.question('Command: ', function (input) {
 					if(input[0] == 's'){
 						console.log(input);
-						func2.saveCookies('0', newNetworks, 'www.google.com');
+						func2.saveCookies(count, newNetworks, count);
+						count++;
 					}
 					else if(input[0] == 'g'){
 						console.log(input);
-						console.log(getWebsiteBySavePoint(newNetworks));
+						console.log(func2.getWebsiteBySavePoint(newNetworks));
 					}
 					infiniteReadline(); //Calling this function again to ask new question
 				});
