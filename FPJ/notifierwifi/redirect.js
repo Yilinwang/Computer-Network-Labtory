@@ -55,9 +55,9 @@ function Redirect2(networks, lengths)
     var points = InitCoordinate(lengths);
     var distances = [];
     for(var i=0; i<networks.length; i++){
-        distances.push( MyComputeDistance(-15-network[i].signal_level, network[i].frequency));
+        distances.push( MyComputeDistance(-15-networks[i].signal_level, networks[i].frequency));
     }
-    var coordinate = MyComputeCoordinate(points, distances);
+    var coordinate = ComputeCoordinate(points, distances);
     console.log(coordinate[0], coordinate[1]);
 }
 
