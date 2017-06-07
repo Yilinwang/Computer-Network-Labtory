@@ -37,16 +37,25 @@ SavePoint.compare = function(sp1, sp2){
 
 function getWebsiteBySavePoint(network){
 	var savePoint = new SavePoint(network);
+	console.log("savePoints = ",savePoints);
+	
+	console.log("savePoints.length = ",savePoints.length);
+	if(savePoints.length == undefined){
+		console.log("savePoints.length = ",savePoints.length);
+		return null;
+	}
 	//find the one that matches
 	var min = 1000000;
 	var minSavePoint = "";
 	for(var name in savePoints){
+		console.log("name = ",name);
 		var dot = SavePoint.compare(savePoints[name], savePoint);
 		if(dot < min){
 			min = dot;
 			minSavePoint = name;
 		}
 	}
+	console.log("minSavePoint = ",minSavePoint);
 	return savePoints[minSavePoint].website;
 }
 
