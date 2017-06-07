@@ -55,10 +55,10 @@ function saveCookies(name, network, website){
 	savePoint.bind(website);
 	savePoints[name] = savePoint;
 	
-	var data = JSON.stringify(savePoints);
-	var expires = new Date();
-	expires.setTime(expires.getTime() + 10*365*24*60*60*1000);
-	document.cookie = "savePointData=" + data + "; expires="+expires.toUTCString()+";";
+	//var data = JSON.stringify(savePoints);
+	//var expires = new Date();
+	//expires.setTime(expires.getTime() + 10*365*24*60*60*1000);
+	//document.cookie = "savePointData=" + data + "; expires="+expires.toUTCString()+";";
 }
 
 function loadCookies(){
@@ -77,3 +77,8 @@ function loadCookies(){
 	}
 	savePoints = sp;
 }
+
+exports.SavePoint = SavePoint;
+exports.savePoints = savePoints;
+exports.getWebsiteBySavePoint = getWebsiteBySavePoint;
+exports.saveCookies = saveCookies;
