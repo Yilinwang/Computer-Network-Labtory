@@ -90,7 +90,7 @@ async.waterfall([
     var ssid_ret = func.Redirect1(newNetworks)
 	console.log('Redirect1:', ssid_ret);
     open(ssid2website[ssid_ret], 'google-chrome');
-    func.Redirect2(newNetworks, [4.8, 4.817, 3.94]);
+    func.Redirect2(newNetworks, [0.6 * 10, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
 	console.log('Redirect2 return');
 });
 

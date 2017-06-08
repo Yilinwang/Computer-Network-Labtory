@@ -49,6 +49,48 @@ function ComputeCoordinate(points, distances)
     return [x, y];
 }
 
+/* Scenario:
+Put AP 7 to the rightmost seat on team 14
+Put AP 12 to the leftmost seat on team 4
+Put AP 13 to the leftmost seat on team 6
+*/
+
+/* Cases:
+at the front on the right  => case 0  => Redirect to CNL Lab1 Concept
+at the back  on the right  => case 1  => Redirect to CNL Lab1 Experiment
+at the front in the middle => case 2  => Redirect to CNL Lab2 Concept
+at the back  in the middle => case 3  => Redirect to CNL Lab2 Experiment
+at the front on the left   => case 4  => Redirect to CNL Lab3 Concept
+at the back  on the left   => case 5  => Redirect to CNL Lab3 Experiment
+*/
+
+function Cases(coordinate)
+{
+    var x = coordinate[0];
+    var y = coordinate[1];
+    if(x >= 0.6 * 10){
+        // on the right
+        if (y >= 0.6 * 1)
+            return 0;
+        else
+            return 1;
+    }
+    else if(x >= 0.6 * 1){
+        // in the middle
+        if (y >= 0.6 * 1)
+            return 2;
+        else
+            return 3;
+    }
+    else{
+        // on the left
+        if (y >= 0.6 * 1)
+            return 4;
+        else
+            return 5;
+    }
+}
+
 // b12: compute current location and redirect to corresponding web page
 function Redirect2(networks, lengths)
 {
@@ -59,6 +101,7 @@ function Redirect2(networks, lengths)
     }
     var coordinate = ComputeCoordinate(points, distances);
     console.log(coordinate[0], coordinate[1]);
+    return Cases(coordinate);
 }
 
 
