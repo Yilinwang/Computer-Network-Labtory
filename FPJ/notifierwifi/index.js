@@ -26,6 +26,7 @@ var websites2 = ['www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firew
                 'www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab2_experiment.pdf',
                 'www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab3_IPv6_Mobility(concept).pdf',
                 'www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab3_IPv6_Mobility(experiment).pdf'];
+
 var ssid2website = {}
 var signal_levels = []
 //var sleep_seconds = 1
@@ -127,7 +128,7 @@ async.waterfall([
     }
     else if(myArgs[0] == 2 ){
         if(newNetworks.length == 3){
-            var ssid_ret2 = func.Redirect2(newNetworks, [4.8, 4.817, 3.94]);
+            var ssid_ret2 = func.Redirect2(newNetworks, [0.6 * 10, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
             console.log('Redirect2:', ssid_ret2, websites2[ssid_ret2]);
             open(websites2[ssid_ret2], 'google-chrome');
         }
