@@ -1,29 +1,27 @@
 var wifi = require('node-wifi');
 var func = require('./redirect');
 var func2 = require('./savepoint.js')
-//var open = require('open');
  
-// Initialize wifi module 
-// Absolutely necessary even to set interface to null 
 wifi.init({
-    iface : null // network interface, choose a random wifi interface if set to null 
+    iface : null 
 });
  
 var websites = {'7': 'google.com.tw', '12': 'www.ntu.edu.tw', '13': 'mrtg.csie.ntu.edu.tw'};
 	
 /*
-    const readline = require('readline');
-    if(readline[0] == 's'){
-        console.log(readline);
-        func2.saveCookies('0', newNetworks, 'www.google.com');
-    }
-    else if(readline[0] == 'g'){
-        console.log(readline);
-        console.log(getWebsiteBySavePoint(newNetworks));
-    }
-    */
-        //func2.saveCookies('0', newNetworks, 'www.google.com');
-        //console.log(func2.getWebsiteBySavePoint(newNetworks));
+const readline = require('readline');
+if(readline[0] == 's'){
+    console.log(readline);
+    func2.saveCookies('0', newNetworks, 'www.google.com');
+}
+else if(readline[0] == 'g'){
+    console.log(readline);
+    console.log(getWebsiteBySavePoint(newNetworks));
+}
+*/
+//func2.saveCookies('0', newNetworks, 'www.google.com');
+//console.log(func2.getWebsiteBySavePoint(newNetworks));
+
 var readline = require('readline');
 var log = console.log;
 
