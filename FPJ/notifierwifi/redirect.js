@@ -68,6 +68,9 @@ function Cases(coordinate)
 {
     var x = coordinate[0];
     var y = coordinate[1];
+    if(isNaN(x) || isNaN(y)){
+    	throw 'coordinate error';
+    }
     if(x >= 0.6 * 10){
         // on the right
         if (y >= 0.6 * 1)
