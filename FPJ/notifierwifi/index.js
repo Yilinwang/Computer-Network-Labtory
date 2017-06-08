@@ -1,91 +1,96 @@
+var async = require('async')
 var wifi = require('node-wifi');
-var func = require('./redirect');
 var open = require('open');
- 
-// Initialize wifi module 
-// Absolutely necessary even to set interface to null 
+var sleep = require('sleep');
+var func = require('./redirect');
+
+var ssids_fix = ['7', '12', '13']
+//var ssids_fix = ['ntu_peap', 'NTU']
+//var freq_fix = [5540, 2412]
+var websites = ['google.com.tw', 'www.ntu.edu.tw', 'mrtg.csie.ntu.edu.tw']
+var ssid2website = {}
+var signal_levels = []
+//var sleep_seconds = 1
+
+for (var i = 0; i < ssids_fix.length; i++){
+    ssid2website[ssids_fix[i]] = websites[i]
+    signal_levels.push([])
+}
+
+var sampleN = 11
+var array = new Array(sampleN-1)
+
+for (var i = 0; i < array.length; i++){
+    array[i] = i+1
+}
+
+function median(a){
+    a.sort()
+    return a[parseInt((sampleN+1)/2)]
+}
+
+
 wifi.init({
     iface : null // network interface, choose a random wifi interface if set to null 
 });
  
-// Scan networks 
-/*
-var signal_levels1 = 0
-var signal_levels2 = 0
-for(var i=0; i < 10; i++){
-    wifi.scan(function(err, networks) {
-        if (err) {
-            console.log(err);
-        } else {
-            for (var i = 0; i < networks.length; i++){
-                if(networks[i].ssid == '7'){
-                    signal_levels1 += networks[i].signal_level
+async.waterfall([
+    function(callback){
+        wifi.scan(function(err, networks) {
+            //console.log(networks)
+            var newNetworks = []
+            if (err) {
+                console.log(err);
+            } else {
+                for (var i = 0; i < networks.length; i++){
+                    for (var j = 0; j < ssids_fix.length; j++){
+                        //if((networks[i].ssid == ssids_fix[j]) && (networks[i].frequency == freq_fix[j])){
+                        if(networks[i].ssid == ssids_fix[j]){
+                            signal_levels[j].push(networks[i].signal_level)
+                            newNetworks.push(networks[i])
+                        }
+                    }
                 }
-                if(networks[i].ssid == '13'){
-                    signal_levels2 += networks[i].signal_level
-                }
+                newNetworks.sort(function(a, b){
+                    return parseInt(a.ssid) > parseInt(b.ssid)
+                })
             }
-            console.log('7', signal_levels1 / 10)
-            console.log('13', signal_levels2 / 10)
-        }
-    })
-}
-*/
-
-var websites = {'7': 'google.com.tw', '12': 'www.ntu.edu.tw', '13': 'mrtg.csie.ntu.edu.tw'}
-
-wifi.scan(function(err, networks) {
-    if (err) {
-        console.log(err);
-    } else {
-        newNetworks = []
-        for (var i = 0; i < networks.length; i++){
-            if(networks[i].ssid == '7' || networks[i].ssid == '12' || networks[i].ssid == '13'){
-                newNetworks.push(networks[i])
-            }
-        }
-        newNetworks.sort(function(a, b){
-            return parseInt(a.ssid) > parseInt(b.ssid)
+            //console.log('init:', newNetworks)
+            callback(null, newNetworks);
         })
-        for (var i = 0; i < newNetworks.length; i++){
-            console.log(newNetworks[i].ssid, newNetworks[i].frequency, newNetworks[i].signal_level)
-        }
+    },
+    function(newNetworks, callback){
+        async.everySeries(array, function(c, callback){
+            //sleep.sleep(sleep_seconds)      // sleep sleep_seconds seconds
+            wifi.scan(function(err, networks) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    for (var i = 0; i < networks.length; i++){
+                        for (var j = 0; j < ssids_fix.length; j++){
+                            //if((networks[i].ssid == ssids_fix[j]) && (networks[i].frequency == freq_fix[j])){
+                            if(networks[i].ssid == ssids_fix[j]){
+                                signal_levels[j].push(networks[i].signal_level)
+                            }
+                        }
+                    }
+                    callback(null, !err);
+                }
+            })
 
-        var ssid_ret = func.Redirect1(newNetworks)
-        console.log(ssid_ret)
-        func.Redirect2(newNetworks, [4.8, 4.817, 3.94]);
-        /*
-        open(websites[ssid_ret], 'google-chrome', function (err) {
-            if ( err ) throw err;    
+        }, function (err, result) {
+            callback(null, newNetworks)
         });
-        */
-
-        /*
-
-		for (i in networks){
-			console.log(i);
-			for (key in networks[i]){
-				console.log( key + ": " + networks[i][key]);
-			}
-		}
-        */
-
+    },
+], function (err, newNetworks) {
+    for (var i = 0; i < newNetworks.length; i++){
+        newNetworks[i].signal_level = median(signal_levels[i])
     }
+	//console.log('Median:', newNetworks);
+    var ssid_ret = func.Redirect1(newNetworks)
+	console.log('Redirect1:', ssid_ret);
+    open(ssid2website[ssid_ret], 'google-chrome');
+    func.Redirect2(newNetworks, [4.8, 4.817, 3.94]);
+	console.log('Redirect2 return');
 });
 
-
-
-
-/*
-RETURNING DATA STRUCTURE:
-networks = [
-    {
-        ssid: '...',
-        mac: '...',
-        frequency: <number>, // in MHz
-        signal_level: <number>, // in dB
-        security: '...' // unfortunately the format still depends of the OS
-    },
-    ...
-];
-*/
