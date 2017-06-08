@@ -11,5 +11,4 @@ for x in j:
 for k in d:
     d[k] = sorted(d[k], key=lambda x: x['signal_level'])
 l = [d[ssid][int(len(d[ssid])/2)] for ssid in d]
-print(l)
 print(json.dumps(l))
