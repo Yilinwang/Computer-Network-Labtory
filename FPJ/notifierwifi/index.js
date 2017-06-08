@@ -7,7 +7,7 @@ var func = require('./redirect');
 var ssids_fix = ['7', '12', '13']
 //var ssids_fix = ['ntu_peap', 'NTU']
 //var freq_fix = [5540, 2412]
-var websites = ['google.com.tw', 'www.ntu.edu.tw', 'mrtg.csie.ntu.edu.tw']
+var websites = ['google.com.tw', 'www.ntu.edu.tw', 'mrtg.csie.ntu.edu.tw', 'www.youtube.com', 'www.facebook.com', 'www.gmail.com']
 var ssid2website = {}
 var signal_levels = []
 //var sleep_seconds = 1
@@ -90,7 +90,8 @@ async.waterfall([
     var ssid_ret = func.Redirect1(newNetworks)
 	console.log('Redirect1:', ssid_ret);
     open(ssid2website[ssid_ret], 'google-chrome');
-    func.Redirect2(newNetworks, [0.6 * 10, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
+    var case_num = func.Redirect2(newNetworks, [0.6 * 10, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
 	console.log('Redirect2 return');
+	open(websites[case_num], 'google-chrome');
 });
 
