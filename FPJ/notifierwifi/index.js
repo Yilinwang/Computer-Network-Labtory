@@ -17,8 +17,8 @@ var sleep = require('sleep');
 var func = require('./redirect');
 
 var ssids_fix = ['7', '12', '13']
-//var ssids_fix = ['ntu_peap', 'NTU', '13']
-var freqs_fix = [5540, 2412, 0]
+//var ssids_fix = ['ntu_peap', 'NTU', 'ntu_peap']
+var freqs_fix = [5540, 2412, 2412]
 var websites1 = ['google.com.tw', 'www.ntu.edu.tw', 'mrtg.csie.ntu.edu.tw']
 var websites2 = ['www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(concept).pdf',
                 'www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(exeriment).pdf',
@@ -32,13 +32,14 @@ var signal_levels = []
 //var sleep_seconds = 1
 
 var myArgs = process.argv.slice(2);
+var case_num = myArgs[0]
 
-if(myArgs.length != 1) {
-    console.log('Usage: node index.js [case]\n[case] can be 1,2,3')
+if(myArgs.length != 1 || !(case_num == 1 || case_num == 2 || case_num == 3)) {
+    console.log('Usage:\tnode index.js [case]\n\t[case] should be 1 or 2 or 3\n')
     throw new Error('Wrong arguments')
 }
 
-console.log('case:', myArgs[0]);
+console.log('case:', case_num);
 
 for (var i = 0; i < ssids_fix.length; i++){
     ssid2website[ssids_fix[i]] = websites1[i]
@@ -116,7 +117,7 @@ async.waterfall([
     }
 	//console.log('Median:', newNetworks);
 
-    if(myArgs[0] == 1){
+    if(case_num == 1){
         if(newNetworks.length > 0){
             var ssid_ret = func.Redirect1(newNetworks)
             console.log('Redirect1:', ssid_ret, ssid2website[ssid_ret]);
@@ -126,7 +127,7 @@ async.waterfall([
             console.log('Cannot detect enough APs (at least 1 for case 1)')
         }
     }
-    else if(myArgs[0] == 2 ){
+    else if(case_num == 2 ){
         if(newNetworks.length == 3){
             var ssid_ret2 = func.Redirect2(newNetworks, [0.6 * 10, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
             console.log('Redirect2:', ssid_ret2, websites2[ssid_ret2]);
@@ -135,6 +136,9 @@ async.waterfall([
         else{
             console.log('Cannot detect enough APs (at least 3 for case 2)')
         }
+    }
+    else if(case_num == 3 ){
+
     }
 });
 
