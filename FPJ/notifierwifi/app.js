@@ -20,6 +20,10 @@ app.get('/case2', function (req, res) {
     res.render('case2.html');
 });
 
+app.get('/case3', function (req, res) {
+    res.render('csieguide.html');
+});
+
 app.get('/scan', function (req, res) {
     var date = new Date();
     var c = date.getSeconds();
