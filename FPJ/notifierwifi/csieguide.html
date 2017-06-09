@@ -1,0 +1,193 @@
+
+<html>
+	<head>
+		<title>CSIE Guide</title>
+		<style type="text/css">
+			*{
+				font-family: serif;
+			}
+			#inputPanel{
+				background-color: #eeffff;
+				border-style: solid;
+				border-color: #ddffff;
+				border-radius: 5px;
+				padding: 10px;
+				width: 25%;
+			}
+			#ctrlPanel{
+				margin-top: 25px;
+			}
+			#inputPanelButtons{
+				padding-left: 10%;
+				display: inline;
+			}
+			.panelButton{
+				width: 25%;
+				border-radius: 4px;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="savepoint.js"></script>
+		<script type="text/javascript">
+			
+			// GUI
+			var ctrlPanel;
+			var inputPanel;
+			var nameInput;
+			var websiteInput;
+			var saveButton;
+			var cmpButton;
+			var stopButton;
+			var isSearching;
+			var url = "";
+			
+			//refresh control panel according to current savepoint data
+			function refreshCtrlPanel(){
+				//clear control panel
+				/*
+				while (ctrlPanel.firstChild) {
+					ctrlPanel.removeChild(ctrlPanel.firstChild);	
+				}
+				*/
+				var table = document.getElementById("savePointsTable");
+				while (table.firstChild) {
+					table.removeChild(table.firstChild);	
+				}
+				for(var name in savePoints){
+					var tr = document.createElement("tr");
+					var th1 = document.createElement("th");
+					var th2 =  document.createElement("th");
+					var deleteButton = document.createElement("button");
+					th1.innerHTML = name;
+					deleteButton.innerHTML = "Delete";
+					deleteButton.onclick = (function(div, name){
+						return function(){
+							ctrlPanel.removeChild(div);
+							delete savePoints[name];
+							saveCookies();
+						}
+					})(div, name);
+					th2.appendChild(deleteButton);
+					tr.appendChild(th1)
+					tr.appendChild(th2)
+					table.appendChild(tr);	
+				}
+			}
+			
+			function onLoad(){
+				//init
+				isSearching = false;
+				ctrlPanel = document.getElementById("ctrlPanel");
+				inputPanel = document.getElementById("inputPanel");
+				saveButton = document.getElementById("saveButton");
+				cmpButton = document.getElementById("cmpButton");
+				stopButton = document.getElementById("stopButton");
+				stopButton.style.visibility ="hidden";
+				savePoints = loadCookies();
+				refreshCtrlPanel();
+			}
+		
+			function saveOnClick(){
+				var name = nameInput.value;
+				var website= websiteInput.value;
+				$.ajax({
+					url: '/scan',
+					success: function(network){
+						var savePoint = new SavePoint(network);
+						if(name != "" && website != "" && savePoint != null){
+							savePoint.bind(website);
+							savePoints[name] = savePoint;
+						}
+						refreshCtrlPanel();
+						saveCookies();	
+					}
+				});	
+			}
+			
+			function searchWifi(){
+				if(isSearching){
+					$.ajax({
+						url: '/scan',
+						success: function(network){
+							var savePoint = new SavePoint(network);
+							//TODO: wait for wifi input format
+							if(savePoint!=null){
+								//find the one that matches
+								var min = 1000000;
+								var minSavePoint = null;
+								for(var name in savePoints){
+									var dot = SavePoint.compare(savePoints[name], savePoint);
+									if(dot < min){
+										min = dot;
+										minSavePoint = savePoints[name];
+									}
+								}
+								if(minSavePoint!=null){
+									if(url!=minSavePoint.website){
+										url = minSavePoint.website;
+										window.open("https://"+url, "_blank");
+									}
+									
+								}
+								else{
+								}
+							}
+							else{
+								//alert("Some input fields are empty.")
+							}
+						}
+					});
+				
+					setTimeout(searchWifi, 1000)
+				}
+				else{
+					cmpButton.disabled = false;
+				}
+			}
+			
+			
+			function cmpOnClick(){
+				isSearching = true;
+				cmpButton.disabled = true;
+				stopButton.style.visibility ="visible";
+				searchWifi();				
+			}
+			
+			function stopOnClick(){
+				isSearching = false;
+				stopButton.style.visibility ="hidden";
+			}
+			
+			
+		</script>
+	</head>
+	<body onload="onLoad()">
+		<h1>Welcome to CSIE Guide</h1>
+		<div id=inputPanel>
+			<table id=inputTable>
+				<tr>
+					<th>Savepoint Name: <th>
+					<th><input type=text  id=savePointName></input><th>
+				</tr>
+				<tr>
+					<th>Website: <th>
+					<th><input type=text  id=website></input><th>
+				</tr>
+			</table>
+			<br>
+			<div id=inputPanelButtons>
+				<button id=saveButton class=panelButton onclick="saveOnClick()">Save</button>
+				<button id=cmpButton class=panelButton onclick="cmpOnClick()">Compare</button>
+				<button id=stopButton class=panelButton onclick="stopOnClick()">Stop</button>
+			</div>
+		</div>
+		
+		<hr>
+		<h2>Save points:</h2>
+		<div id=ctrlPanel margin-top=25px>
+			<table id=savePointsTable>
+			<table>
+		</div>
+			
+	</body>
+</html>
