@@ -63,6 +63,14 @@ function saveCookies(name, network, website){
 	var savePoint = new SavePoint(network);
 	savePoint.bind(website);
 	savePoints[name] = savePoint;
+	//save data
+	var fs = require('fs');
+		var data = JSON.stringify(savePoints);
+		fs.writeFile("savepoint.json", data, 'utf8', function(err) {
+		if(err) {
+			return console.log(err);
+		}
+	}); 
 	
 	//var data = JSON.stringify(savePoints);
 	//var expires = new Date();
@@ -71,6 +79,13 @@ function saveCookies(name, network, website){
 }
 
 function loadCookies(){
+	fs.readFile('savepoint.json', 'utf8', function readFileCallback(err, data){
+	if (err){
+		console.log(err);
+	} else {
+		savePoints = JSON.parse(data);
+	}});
+	/*
 	var sp = {};
 	var cookies = document.cookie.split(";");
 	for(var key in cookies){
@@ -85,6 +100,7 @@ function loadCookies(){
 		}
 	}
 	savePoints = sp;
+	*/
 }
 
 exports.SavePoint = SavePoint;
