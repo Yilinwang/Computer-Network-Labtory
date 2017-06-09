@@ -180,15 +180,13 @@ function loadCookies(){
 				$.ajax({
 					url: '/scan3',
 					success: function(network){
-            if(network['signal_level'] != null) {
-              var savePoint = new SavePoint(network);
-              if(name != "" && website != "" && savePoint != null){
-                savePoint.bind(website);
-                savePoints[name] = savePoint;
-              }
-              saveCookies();	
-              refreshCtrlPanel();
+            var savePoint = new SavePoint(network);
+            if(name != "" && website != "" && savePoint != null){
+              savePoint.bind(website);
+              savePoints[name] = savePoint;
             }
+            saveCookies();	
+            refreshCtrlPanel();
 					}
 				});	
 			}
