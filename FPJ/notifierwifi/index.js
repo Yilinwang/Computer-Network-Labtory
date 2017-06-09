@@ -17,8 +17,8 @@ var sleep = require('sleep');
 var func = require('./redirect');
 
 var ssids_fix = ['7', '12', '13']
-var ssids_fix = ['ntu_peap', 'NTU', 'ntu_peap']
-var freqs_fix = [5540, 2412, 2412]
+//var ssids_fix = ['ntu_peap', 'NTU', 'ntu_peap']
+var freqs_fix = [2437, 2437, 2412]
 var websites1 = ['google.com.tw', 'www.ntu.edu.tw', 'mrtg.csie.ntu.edu.tw']
 var websites2 = ['www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(concept).pdf',
                 'www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(exeriment).pdf',
@@ -46,7 +46,7 @@ for (var i = 0; i < ssids_fix.length; i++){
     signal_levels.push([])
 }
 
-var sampleN = 3
+var sampleN = 7
 var array = new Array(sampleN-1)
 
 for (var i = 0; i < array.length; i++){
@@ -55,7 +55,8 @@ for (var i = 0; i < array.length; i++){
 
 function median(a){
     a.sort()
-    return a[parseInt((sampleN+1)/2)]
+    console.log(a, a[parseInt((sampleN)/2)])
+    return a[parseInt((sampleN)/2)]
 }
 
 
@@ -66,7 +67,7 @@ wifi.init({
 async.waterfall([
     function(callback){
         wifi.scan(function(err, networks) {
-            console.log(networks)
+            //console.log(networks)
             var newNetworks = []
             if (err) {
                 console.log(err);
@@ -115,9 +116,9 @@ async.waterfall([
     for (var i = 0; i < newNetworks.length; i++){
         newNetworks[i].signal_level = median(signal_levels[i])
     }
-	//console.log('Median:', newNetworks);
 
     if(case_num == 1){
+	console.log(newNetworks)
         if(newNetworks.length > 0){
             var ssid_ret = func.Redirect1(newNetworks)
             console.log('Redirect1:', ssid_ret, ssid2website[ssid_ret]);
@@ -129,7 +130,7 @@ async.waterfall([
     }
     else if(case_num == 2 ){
         if(newNetworks.length == 3){
-            var ssid_ret2 = func.Redirect2(newNetworks, [0.6 * 10, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
+            var ssid_ret2 = func.Redirect2(newNetworks, [0.6 * 10.5, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
             console.log('Redirect2:', ssid_ret2, websites2[ssid_ret2]);
             open(websites2[ssid_ret2], 'google-chrome');
         }

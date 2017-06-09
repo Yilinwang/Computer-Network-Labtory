@@ -38,6 +38,7 @@ function InitCoordinate(lengths)
     var b = (ab2 + bc2 - ac2) / 2 / lengths[0];
     var a = b - lengths[0];
     var c = Math.sqrt(ac2 - Math.pow(a, 2));
+    console.log("[a,b,c] = ",a,b,c);
     return [a, b, c];
 }
 
@@ -66,8 +67,12 @@ at the back  on the left   => case 5  => Redirect to CNL Lab3 Experiment
 
 function Cases(coordinate)
 {
+    //console.log(coordinate);
     var x = coordinate[0];
     var y = coordinate[1];
+    //var x = coordinate[0]-2.26-3.15;
+    //var y = coordinate[1]-0.4;
+    //console.log(x,y);
     if(isNaN(x) || isNaN(y)){
     	throw 'coordinate error';
     }
@@ -102,6 +107,7 @@ function Redirect2(networks, lengths)
     for(var i=0; i<networks.length; i++){
         distances.push( MyComputeDistance(-15-networks[i].signal_level, networks[i].frequency));
     }
+    console.log("distances = ",distances);
     var coordinate = ComputeCoordinate(points, distances);
     console.log(coordinate[0], coordinate[1]);
     return Cases(coordinate);
