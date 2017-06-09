@@ -47,6 +47,10 @@ function ComputeCoordinate(points, distances)
 {
     var x = (Math.pow(distances[0], 2) - Math.pow(distances[1], 2) + Math.pow(points[1], 2) - Math.pow(points[0], 2)) / 2 / (points[1] - points[0]);
     var y = (Math.pow(distances[0], 2) - Math.pow(distances[2], 2) + 2 * points[0] * x - Math.pow(points[0], 2) + Math.pow(points[2], 2)) / 2 / (points[1] - points[0]);
+    console.log('Compute error:');
+    console.log(Math.pow(distances[0], 2) - Math.pow(x - points[0], 2) - Math.pow(y, 2));
+    console.log(Math.pow(distances[1], 2) - Math.pow(x - points[1], 2) - Math.pow(y, 2));
+    console.log(Math.pow(distances[2], 2) - Math.pow(x, 2) - Math.pow(y - points[2], 2));
     return [x, y];
 }
 
