@@ -159,25 +159,6 @@ function loadCookies(){
 					tr.appendChild(th2)
 					table.appendChild(tr);	
 				}
-				/*
-				//add new things on control panel
-				for(var name in savePoints){
-					var div = document.createElement("div");
-					div.innerHTML = name;
-					//add delete button
-					var deleteButton = document.createElement("button");
-					deleteButton.innerHTML = "Delete";
-					deleteButton.onclick = (function(div, name){
-						return function(){
-							ctrlPanel.removeChild(div);
-							delete savePoints[name];
-							saveCookies();
-						}
-					})(div, name);
-					div.appendChild(deleteButton);
-					ctrlPanel.appendChild(div);	
-				}
-				*/
 			}
 			
 			function onLoad(){
@@ -206,8 +187,8 @@ function loadCookies(){
 							savePoint.bind(website);
 							savePoints[name] = savePoint;
 						}
-						refreshCtrlPanel();
 						saveCookies();	
+						refreshCtrlPanel();
 					}
 				});	
 			}
@@ -215,30 +196,33 @@ function loadCookies(){
 			function searchWifi(){
 				if(isSearching){
 					$.ajax({
-						url: '/scan3',
+						url: '/scan',
 						success: function(network){
 							var savePoint = new SavePoint(network);
 							//TODO: wait for wifi input format
 							if(savePoint!=null){
 								//find the one that matches
 								var min = 1000000;
-								var minSavePoint = "";
+								var minSavePoint = null;
 								for(var name in savePoints){
 									var dot = SavePoint.compare(savePoints[name], savePoint);
 									if(dot < min){
 										min = dot;
-										minSavePoint = name;
+										minSavePoint = savePoints[name];
 									}
 								}
-								if(minSavePoint==""){
-									alert("Not found");
+								if(minSavePoint!=null){
+									if(url!=minSavePoint.website){
+										url = minSavePoint.website;
+										window.open("https://"+url, "_blank");
+									}
+									
 								}
 								else{
-									alert("Save point " + minSavePoint + " Amp = " + min);
 								}
 							}
 							else{
-								alert("Some input fields are empty.")
+								//alert("Some input fields are empty.")
 							}
 						}
 					});
