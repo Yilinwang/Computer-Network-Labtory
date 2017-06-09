@@ -38,6 +38,7 @@ function InitCoordinate(lengths)
     var b = (ab2 + bc2 - ac2) / 2 / lengths[0];
     var a = b - lengths[0];
     var c = Math.sqrt(ac2 - Math.pow(a, 2));
+    console.log("[a,b,c] = ",a,b,c);
     return [a, b, c];
 }
 
@@ -46,6 +47,10 @@ function ComputeCoordinate(points, distances)
 {
     var x = (Math.pow(distances[0], 2) - Math.pow(distances[1], 2) + Math.pow(points[1], 2) - Math.pow(points[0], 2)) / 2 / (points[1] - points[0]);
     var y = (Math.pow(distances[0], 2) - Math.pow(distances[2], 2) + 2 * points[0] * x - Math.pow(points[0], 2) + Math.pow(points[2], 2)) / 2 / (points[1] - points[0]);
+    console.log('Compute error:');
+    console.log(Math.pow(distances[0], 2) - Math.pow(x - points[0], 2) - Math.pow(y, 2));
+    console.log(Math.pow(distances[1], 2) - Math.pow(x - points[1], 2) - Math.pow(y, 2));
+    console.log(Math.pow(distances[2], 2) - Math.pow(x, 2) - Math.pow(y - points[2], 2));
     return [x, y];
 }
 
@@ -66,8 +71,12 @@ at the back  on the left   => case 5  => Redirect to CNL Lab3 Experiment
 
 function Cases(coordinate)
 {
+    //console.log(coordinate);
     var x = coordinate[0];
     var y = coordinate[1];
+    //var x = coordinate[0]-2.26-3.15;
+    //var y = coordinate[1]-0.4;
+    //console.log(x,y);
     if(isNaN(x) || isNaN(y)){
     	throw 'coordinate error';
     }
@@ -102,6 +111,7 @@ function Redirect2(networks, lengths)
     for(var i=0; i<networks.length; i++){
         distances.push( MyComputeDistance(-15-networks[i].signal_level, networks[i].frequency));
     }
+    console.log("distances = ",distances);
     var coordinate = ComputeCoordinate(points, distances);
     console.log(coordinate[0], coordinate[1]);
     return Cases(coordinate);
