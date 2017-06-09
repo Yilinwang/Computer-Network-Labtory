@@ -121,3 +121,6 @@ function scan(case_num){
         }
     });
 }
+
+
+exports.scan = scan
