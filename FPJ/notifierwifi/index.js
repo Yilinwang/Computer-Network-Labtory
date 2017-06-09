@@ -17,7 +17,7 @@ var sleep = require('sleep');
 var func = require('./redirect');
 
 var ssids_fix = ['7', '12', '13']
-//var ssids_fix = ['ntu_peap', 'NTU', 'ntu_peap']
+var ssids_fix = ['ntu_peap', 'NTU', 'ntu_peap']
 var freqs_fix = [5540, 2412, 2412]
 var websites1 = ['google.com.tw', 'www.ntu.edu.tw', 'mrtg.csie.ntu.edu.tw']
 var websites2 = ['www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(concept).pdf',
@@ -46,7 +46,7 @@ for (var i = 0; i < ssids_fix.length; i++){
     signal_levels.push([])
 }
 
-var sampleN = 11
+var sampleN = 3
 var array = new Array(sampleN-1)
 
 for (var i = 0; i < array.length; i++){
@@ -66,7 +66,7 @@ wifi.init({
 async.waterfall([
     function(callback){
         wifi.scan(function(err, networks) {
-            //console.log(networks)
+            console.log(networks)
             var newNetworks = []
             if (err) {
                 console.log(err);
@@ -141,4 +141,3 @@ async.waterfall([
 
     }
 });
-
