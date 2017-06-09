@@ -1,24 +1,10 @@
-/**
- * Usage for case 1: node index.js 1
- * Usage for case 2: node index.js 2
- * Usage for case 3: node index.js 3
- * 
- * Before executing:
- *     Please set 
- *     (1) ssids_fix[] and its corresponding freqs_fix[]
- *     (2) websites1[] and websites2[] that you want to direct to
- *     
-**/
-
 var async = require('async')
 var wifi = require('node-wifi');
-var open = require('open');
 var sleep = require('sleep');
 var func = require('./redirect');
 
 var ssids_fix = ['7', '12', '13']
-var ssids_fix = ['ntu_peap', 'NTU', 'ntu_peap']
-var freqs_fix = [5540, 2412, 2412]
+var freqs_fix = [2437, 2437, 2412]
 var websites1 = ['google.com.tw', 'www.ntu.edu.tw', 'mrtg.csie.ntu.edu.tw']
 var websites2 = ['www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(concept).pdf',
                 'www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(exeriment).pdf',
@@ -31,22 +17,12 @@ var ssid2website = {}
 var signal_levels = []
 //var sleep_seconds = 1
 
-var myArgs = process.argv.slice(2);
-var case_num = myArgs[0]
-
-if(myArgs.length != 1 || !(case_num == 1 || case_num == 2 || case_num == 3)) {
-    console.log('Usage:\tnode index.js [case]\n\t[case] should be 1 or 2 or 3\n')
-    throw new Error('Wrong arguments')
-}
-
-console.log('case:', case_num);
-
 for (var i = 0; i < ssids_fix.length; i++){
     ssid2website[ssids_fix[i]] = websites1[i]
     signal_levels.push([])
 }
 
-var sampleN = 3
+var sampleN = 11
 var array = new Array(sampleN-1)
 
 for (var i = 0; i < array.length; i++){
