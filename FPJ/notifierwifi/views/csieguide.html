@@ -127,6 +127,7 @@ function loadCookies(){
 			var cmpButton;
 			var stopButton;
 			var isSearching;
+      var url = "";
 			
 			//refresh control panel according to current savepoint data
 			function refreshCtrlPanel(){
@@ -182,13 +183,15 @@ function loadCookies(){
 				$.ajax({
 					url: '/scan3',
 					success: function(network){
-						var savePoint = new SavePoint(network);
-						if(name != "" && website != "" && savePoint != null){
-							savePoint.bind(website);
-							savePoints[name] = savePoint;
-						}
-						saveCookies();	
-						refreshCtrlPanel();
+            if(network['signal_level'] != null) {
+              var savePoint = new SavePoint(network);
+              if(name != "" && website != "" && savePoint != null){
+                savePoint.bind(website);
+                savePoints[name] = savePoint;
+              }
+              saveCookies();	
+              refreshCtrlPanel();
+            }
 					}
 				});	
 			}
