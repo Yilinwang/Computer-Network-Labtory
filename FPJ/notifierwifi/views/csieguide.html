@@ -91,10 +91,7 @@ function getWebsiteBySavePoint(network){
 	return savePoints[minSavePoint].website;
 }
 
-function saveCookies(name, network, website){
-	var savePoint = new SavePoint(network);
-	savePoint.bind(website);
-	savePoints[name] = savePoint;
+function saveCookies(){
 	var data = JSON.stringify(savePoints);
 	var expires = new Date();
 	expires.setTime(expires.getTime() + 10*365*24*60*60*1000);
