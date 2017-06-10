@@ -22,11 +22,19 @@ for (var i = 0; i < ssids_fix.length; i++){
     signal_levels.push([])
 }
 
-var sampleN = 11
+var sampleN = 1
 var array = new Array(sampleN-1)
 
 for (var i = 0; i < array.length; i++){
     array[i] = i+1
+}
+
+function doSomething(newNetworks, callback){
+    return callback(ssid2website[func.Redirect1(newNetworks)]);
+}
+
+function foo(url){
+    return url
 }
 
 function median(a){
@@ -96,10 +104,14 @@ function scan(case_num){
 
         if(case_num == 1){
             if(newNetworks.length > 0){
-                var ssid_ret = func.Redirect1(newNetworks)
-                console.log('Redirect1:', ssid_ret, ssid2website[ssid_ret]);
+                //doSomething(newNetworks, foo)
+                //return ssid2website[func.Redirect1(newNetworks)]
+                //var ssid_ret = func.Redirect1(newNetworks)
+                //console.log('Redirect1:', ssid_ret, ssid2website[ssid_ret]);
                 //open(ssid2website[ssid_ret], 'google-chrome');
-                return ssid2website[ssid_ret]
+                //return ssid2website[ssid_ret]
+                url = ssid2website[func.Redirect1(newNetworks)]
+
             }
             else{
                 console.log('Cannot detect enough APs (at least 1 for case 1)')
