@@ -170,7 +170,8 @@ app.get('/scan2', function (req, res) {
                         for (var j = 0; j < ssids_fix.length; j++){
                             if((networks[i].ssid == ssids_fix[j]) && (networks[i].frequency == freqs_fix[j])){
                             //if(networks[i].ssid == ssids_fix[j]){
-                                signal_levels[j].push(networks[i].signal_level)
+                                if(networks[i].signal_level != undefined)
+                                    signal_levels[j].push(networks[i].signal_level)
                                 newNetworks.push(networks[i])
                             }
                         }
@@ -194,7 +195,8 @@ app.get('/scan2', function (req, res) {
                             for (var j = 0; j < ssids_fix.length; j++){
                                 if((networks[i].ssid == ssids_fix[j]) && (networks[i].frequency == freqs_fix[j])){
                                 //if(networks[i].ssid == ssids_fix[j]){
-                                    signal_levels[j].push(networks[i].signal_level)
+                                    if(networks[i].signal_level != undefined)
+                                        signal_levels[j].push(networks[i].signal_level)
                                 }
                             }
                         }
@@ -216,8 +218,11 @@ app.get('/scan2', function (req, res) {
             console.log(newNetworks);
 
             let exec = require('child_process').exec;
-            exec('python3 ML/svm_predict.py '+newNetworks[0].toString()+' '+newNetworks[1].toString()+' '+newNetworks[2].toString(), (error, stdout, stderr) => {
-                console.log('coordinate:', stderr)
+            for(var j = 0; j < 3; j++){
+                console.log(newNetworks[j].signal_level);
+            }
+            exec('python3 ML/svr_predict.py '+newNetworks[0].signal_level.toString()+' '+newNetworks[1].signal_level.toString()+' '+newNetworks[2].signal_level.toString(), (error, stdout, stderr) => {
+                console.log('coordinate:', stdout)
                 console.log(websites2[parseInt(stdout)])
                 res.send(websites2[parseInt(stdout)]);
             });
@@ -252,7 +257,8 @@ app.get('/scan3', function (req, res) {
                         for (var j = 0; j < ssids_fix.length; j++){
                             if((networks[i].ssid == ssids_fix[j]) && (networks[i].frequency == freqs_fix[j])){
                             //if(networks[i].ssid == ssids_fix[j]){
-                                signal_levels[j].push(networks[i].signal_level)
+                                if(networks[i].signal_level != undefined)
+                                    signal_levels[j].push(networks[i].signal_level)
                                 newNetworks.push(networks[i])
                             }
                         }
