@@ -12,6 +12,7 @@ Y = input_data[:, 0]
 
 model = SVR()
 model.fit(X, Y)
+print('mean square error:', np.mean((model.predict(X)-Y)**2))
 
 pickle.dump(model, open('svr_model_x', 'wb'))
 
@@ -22,3 +23,4 @@ model = SVR()
 model.fit(X, Y)
 
 pickle.dump(model, open('svr_model_y', 'wb'))
+print('mean square error:', np.mean((model.predict(X)-Y)**2))
