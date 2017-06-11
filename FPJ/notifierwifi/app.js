@@ -217,7 +217,9 @@ app.get('/scan2', function (req, res) {
 
             let exec = require('child_process').exec;
             exec('python3 ML/svm_predict.py '+newNetworks[0].toString()+' '+newNetworks[1].toString()+' '+newNetworks[2].toString(), (error, stdout, stderr) => {
-                res.send(stdout);
+                console.log('coordinate:', stderr)
+                console.log(websites2[parseInt(stdout)])
+                res.send(websites2[parseInt(stdout)]);
             });
 
             //res.end(newNetworks);
