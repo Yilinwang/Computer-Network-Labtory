@@ -215,14 +215,12 @@ app.get('/scan2', function (req, res) {
         //console.log('Median:', newNetworks);
 
         if(newNetworks.length == 3){
-            console.log(newNetworks);
-
             let exec = require('child_process').exec;
             for(var j = 0; j < 3; j++){
                 console.log(newNetworks[j].signal_level);
             }
             exec('python3 ML/svr_predict.py '+newNetworks[0].signal_level.toString()+' '+newNetworks[1].signal_level.toString()+' '+newNetworks[2].signal_level.toString(), (error, stdout, stderr) => {
-                console.log('coordinate:', stdout)
+                console.log('coordinate:', stderr, stdout)
                 console.log(websites2[parseInt(stdout)])
                 res.send(websites2[parseInt(stdout)]);
             });
