@@ -1,5 +1,6 @@
+import os
 import sys
-sys.path.append('libsvm/python')
+sys.path.append(os.getcwd() + '/libsvm/python')
 from svmutil import *
 
 if len(sys.argv) != 4:
