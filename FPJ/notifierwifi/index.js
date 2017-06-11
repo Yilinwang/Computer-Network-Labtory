@@ -18,7 +18,7 @@ var func = require('./redirect');
 
 var ssids_fix = ['7', '12', '13']
 //var ssids_fix = ['ntu_peap', 'NTU', 'ntu_peap']
-var freqs_fix = [2437, 2437, 2412]
+var freqs_fix = [2412, 2412, 2437]
 var websites1 = ['google.com.tw', 'www.ntu.edu.tw', 'mrtg.csie.ntu.edu.tw']
 var websites2 = ['www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(concept).pdf',
                 'www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(exeriment).pdf',
@@ -118,7 +118,7 @@ async.waterfall([
     }
 
     if(case_num == 1){
-	console.log(newNetworks)
+	    //console.log(newNetworks)
         if(newNetworks.length > 0){
             var ssid_ret = func.Redirect1(newNetworks)
             console.log('Redirect1:', ssid_ret, ssid2website[ssid_ret]);
