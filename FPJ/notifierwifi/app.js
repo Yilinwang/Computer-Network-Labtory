@@ -20,6 +20,17 @@ app.get('/case2', function (req, res) {
     res.render('case2.html');
 });
 
+app.get('/case2_test', function (req, res) {
+    res.render('case2_test.html');
+});
+
+app.get('/python', function( req, res) {
+    let exec = require('child_process').exec;
+    exec('python3 hello.py', (error, stdout, stderr) => {
+        res.send(stdout);
+    });
+});
+
 app.get('/case3', function (req, res) {
     res.render('csieguide.html');
 });
@@ -49,12 +60,19 @@ var ssid2website = {}
 var signal_levels = []
 //var sleep_seconds = 1
 
+function clearSigLev(){
+    signal_levels = []
+    for (var i = 0; i < ssids_fix.length; i++){
+        signal_levels.push([]);
+   }
+}
+
 for (var i = 0; i < ssids_fix.length; i++){
     ssid2website[ssids_fix[i]] = websites1[i]
     signal_levels.push([])
 }
 
-var sampleN = 1
+var sampleN = 5
 var array = new Array(sampleN-1)
 
 for (var i = 0; i < array.length; i++){
@@ -65,7 +83,9 @@ wifi.init({
     iface : null // network interface, choose a random wifi interface if set to null 
 });
 
+
 app.get('/scan1', function (req, res) {
+    clearSigLev()
     var url = "";
     var case_num = 1;
     async.waterfall([
@@ -135,6 +155,7 @@ app.get('/scan1', function (req, res) {
 });
 
 app.get('/scan2', function (req, res) {
+    clearSigLev()
     var url = "";
     var case_num = 1;
     async.waterfall([
@@ -193,11 +214,18 @@ app.get('/scan2', function (req, res) {
 
         if(newNetworks.length == 3){
             console.log(newNetworks);
-            var ssid_ret2 = func.Redirect2(newNetworks, [0.6 * 10, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
-            console.log('Redirect2:', ssid_ret2, websites2[ssid_ret2]);
-            url = websites2[ssid_ret2]
-            console.log(url);
-            res.end(url);
+
+            let exec = require('child_process').exec;
+            exec('python3 ML/svm_predict.py '+newNetworks[0].toString()+' '+newNetworks[1].toString()+' '+newNetworks[2].toString(), (error, stdout, stderr) => {
+                res.send(stdout);
+            });
+
+            //res.end(newNetworks);
+            //var ssid_ret2 = func.Redirect2(newNetworks, [0.6 * 10, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
+            //console.log('Redirect2:', ssid_ret2, websites2[ssid_ret2]);
+            //url = websites2[ssid_ret2]
+            //console.log(url);
+            //res.end(url);
             //open(websites2[ssid_ret2], 'google-chrome');
         }
         else{
@@ -207,6 +235,7 @@ app.get('/scan2', function (req, res) {
 });
 
 app.get('/scan3', function (req, res) {
+    clearSigLev()
     var url = "";
     var case_num = 1;
     async.waterfall([
@@ -263,7 +292,6 @@ app.get('/scan3', function (req, res) {
         }
         //console.log('Median:', newNetworks);
 
-        console.log(JSON.stringify(newNetworks));
         res.end(JSON.stringify(newNetworks));
     });
 });

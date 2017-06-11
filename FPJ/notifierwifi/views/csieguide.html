@@ -60,7 +60,7 @@ SavePoint.compare = function(sp1, sp2){
 			amp1 = Math.pow(10, sp1.wifiAmps[key]/10);
 		}
 		if(sp2.wifiAmps[key]!=null){
-			amp2 = Math.pow(10, sp1.wifiAmps[key]/10);
+			amp2 = Math.pow(10, sp2.wifiAmps[key]/10);
 		}
 		dot += (amp1-amp2)*(amp1-amp2);
 	}
@@ -194,6 +194,7 @@ function loadCookies(){
 			
 			function searchWifi(){
 				if(isSearching){
+          console.log("scan");
 					$.ajax({
 						url: '/scan3',
 						success: function(network){
@@ -206,7 +207,8 @@ function loadCookies(){
 								var minSavePoint = null;
 								for(var name in savePoints){
 									var dot = SavePoint.compare(savePoints[name], savePoint);
-                                    console.log(name, savePoints[name].wifiAmps, savePoint.wifiAmps)
+                  console.log(name, savePoints[name].wifiAmps, savePoint.wifiAmps, dot)
+                  //console.log(name, dot)
 									if(dot < min){
 										min = dot;
 										minSavePoint = savePoints[name];
@@ -228,7 +230,7 @@ function loadCookies(){
 						}
 					});
 				
-					setTimeout(searchWifi, 1000)
+					setTimeout(searchWifi, 14000)
 				}
 				else{
 					cmpButton.disabled = false;
@@ -237,6 +239,7 @@ function loadCookies(){
 			
 			
 			function cmpOnClick(){
+                //url="";
 				isSearching = true;
 				cmpButton.disabled = true;
 				stopButton.style.visibility ="visible";
@@ -244,7 +247,6 @@ function loadCookies(){
 			}
 			
 			function stopOnClick(){
-                url="";
 				isSearching = false;
 				stopButton.style.visibility ="hidden";
 			}
