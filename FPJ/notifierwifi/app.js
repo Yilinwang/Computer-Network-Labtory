@@ -1,7 +1,7 @@
 var express = require('express');
 var async = require('async')
 var wifi = require('node-wifi');
-var sleep = require('sleep');
+//var sleep = require('sleep');
 var func = require('./redirect');
 var app = express();
 
@@ -36,7 +36,7 @@ function median(a){
 }
 
 var ssids_fix = ['7', '12', '13']
-var freqs_fix = [2437, 2437, 2412]
+var freqs_fix = [2412, 2412, 2437]
 var websites1 = ['google.com.tw', 'www.ntu.edu.tw', 'mrtg.csie.ntu.edu.tw']
 var websites2 = ['www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(concept).pdf',
                 'www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firewall_NAT(exeriment).pdf',
