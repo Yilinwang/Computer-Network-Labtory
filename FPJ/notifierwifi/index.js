@@ -47,7 +47,7 @@ for (var i = 0; i < ssids_fix.length; i++){
     signal_levels.push([])
 }
 
-var sampleN = 7
+var sampleN = 5
 var array = new Array(sampleN-1)
 
 for (var i = 0; i < array.length; i++){
