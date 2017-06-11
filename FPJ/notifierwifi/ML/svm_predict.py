@@ -1,5 +1,5 @@
 import sys
-sys.path.append('libsvm/python')
+sys.path.append('ML/libsvm/python')
 from svmutil import *
 
 if len(sys.argv) != 4:
@@ -12,10 +12,31 @@ y = [0]
 # predict coordinate x
 m = svm_load_model('model_x')
 p_label, p_acc, p_val = svm_predict(y, x, m, '-q')
-print(p_label[0])
+x = p_label[0]
 
 # predict coordinate y
 m = svm_load_model('model_y')
 p_label, p_acc, p_val = svm_predict(y, x, m, '-q')
-print(p_label[0])
+y = p_label[0]
 
+print(sys.argv, x, y)
+
+if x >= 0.6 * 10:
+    # on the right
+    if y >= 0.6 * 1:
+        print(0)
+    else:
+        print(1)
+elif x >= 0.6 * 1:
+    # in the middle
+    if y >= 0.6 * 1:
+        print(2)
+    else:
+        print(3)
+
+else:
+    # on the left
+    if y >= 0.6 * 1:
+        print(4)
+    else:
+        print(5)
