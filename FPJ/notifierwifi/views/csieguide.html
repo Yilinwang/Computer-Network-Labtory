@@ -103,7 +103,7 @@ function loadCookies(){
 	var cookies = document.cookie.split(";");
 	for(var key in cookies){
 		var cookie = cookies[key].split("=");
-		if(cookie[0]=="savePointData"){
+		if(cookie[0]==" savePointData"){
 			try{
 				sp = JSON.parse(unescape(cookie[1]));
 			}
@@ -180,6 +180,7 @@ function loadCookies(){
 				$.ajax({
 					url: '/scan3',
 					success: function(network){
+            network = JSON.parse(network)
             var savePoint = new SavePoint(network);
             if(name != "" && website != "" && savePoint != null){
               savePoint.bind(website);
@@ -194,8 +195,9 @@ function loadCookies(){
 			function searchWifi(){
 				if(isSearching){
 					$.ajax({
-						url: '/scan',
+						url: '/scan3',
 						success: function(network){
+                            network = JSON.parse(network)
 							var savePoint = new SavePoint(network);
 							//TODO: wait for wifi input format
 							if(savePoint!=null){
@@ -204,6 +206,7 @@ function loadCookies(){
 								var minSavePoint = null;
 								for(var name in savePoints){
 									var dot = SavePoint.compare(savePoints[name], savePoint);
+                                    console.log(name, savePoints[name].wifiAmps, savePoint.wifiAmps)
 									if(dot < min){
 										min = dot;
 										minSavePoint = savePoints[name];
@@ -241,6 +244,7 @@ function loadCookies(){
 			}
 			
 			function stopOnClick(){
+                url="";
 				isSearching = false;
 				stopButton.style.visibility ="hidden";
 			}
