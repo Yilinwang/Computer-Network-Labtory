@@ -130,7 +130,7 @@ async.waterfall([
     }
     else if(case_num == 2 ){
         if(newNetworks.length == 3){
-            var ssid_ret2 = func.Redirect2(newNetworks, [0.6 * 10.5, 0.6 * Math.pow(1+16, 0.5), 0.6 * Math.pow(81+16, 0.5)]);
+            var ssid_ret2 = func.Redirect2(newNetworks, [-0.9,5.4 , 4.2]);
             console.log('Redirect2:', ssid_ret2, websites2[ssid_ret2]);
             open(websites2[ssid_ret2], 'google-chrome');
         }
