@@ -100,10 +100,10 @@ function saveCookies(){
 
 function loadCookies(){
 	var sp = {};
-	var cookies = document.cookie.split(";");
+	var cookies = document.cookie.split(" ").join("").split(";");
 	for(var key in cookies){
 		var cookie = cookies[key].split("=");
-		if(cookie[0]==" savePointData"){
+		if(cookie[0]=="savePointData"){
 			try{
 				sp = JSON.parse(unescape(cookie[1]));
 			}
