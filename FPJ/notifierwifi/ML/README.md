@@ -9,5 +9,5 @@ make
 
 Execute:
 
-python svm_predict signal_7 signal_12 signal_13
+python svm_predict.py signal_7 signal_12 signal_13
 ```
