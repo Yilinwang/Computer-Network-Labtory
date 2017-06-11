@@ -33,13 +33,14 @@ var signal_levels = []
 
 var myArgs = process.argv.slice(2);
 var case_num = myArgs[0]
-
-if(myArgs.length != 1 || !(case_num == 1 || case_num == 2 || case_num == 3)) {
+//console.log(case_num);
+//if(myArgs.length != 1 || !(case_num == 1 || case_num == 2 || case_num == 3)) {
+if(!(case_num == 1 || case_num == 2 || case_num == 3)) {
     console.log('Usage:\tnode index.js [case]\n\t[case] should be 1 or 2 or 3\n')
     throw new Error('Wrong arguments')
 }
 
-console.log('case:', case_num);
+//console.log('case:', case_num);
 
 for (var i = 0; i < ssids_fix.length; i++){
     ssid2website[ssids_fix[i]] = websites1[i]
@@ -55,7 +56,8 @@ for (var i = 0; i < array.length; i++){
 
 function median(a){
     a.sort()
-    console.log(a, a[parseInt((sampleN)/2)])
+    //console.log(a, a[parseInt((sampleN)/2)])
+    //console.log(a[parseInt((sampleN)/2)])
     return a[parseInt((sampleN)/2)]
 }
 
@@ -116,7 +118,6 @@ async.waterfall([
     for (var i = 0; i < newNetworks.length; i++){
         newNetworks[i].signal_level = median(signal_levels[i])
     }
-
     if(case_num == 1){
 	    //console.log(newNetworks)
         if(newNetworks.length > 0){
@@ -130,8 +131,11 @@ async.waterfall([
     }
     else if(case_num == 2 ){
         if(newNetworks.length == 3){
+	    var x = myArgs[1];
+            var y = myArgs[2];
+    	    console.log(x,y,newNetworks[0].signal_level,newNetworks[1].signal_level,newNetworks[2].signal_level);
             var ssid_ret2 = func.Redirect2(newNetworks, [-0.9,5.4 , 4.2]);
-            console.log('Redirect2:', ssid_ret2, websites2[ssid_ret2]);
+	    //console.log('Redirect2:', ssid_ret2, websites2[ssid_ret2]);
             open(websites2[ssid_ret2], 'google-chrome');
         }
         else{

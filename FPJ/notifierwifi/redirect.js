@@ -210,7 +210,7 @@ function ComputeCoordinate(p, d)
     // Final result
     var x = (x1+x2+x3)/3;
     var y = (y1+y2+y3)/3;
-    console.log('x =', x, 'y =', y);
+    //console.log('x =', x, 'y =', y);
 
     return [x, y];
 }
@@ -272,7 +272,7 @@ function Redirect2(networks, points)
     for(var i=0; i<networks.length; i++){
         distances.push( MyComputeDistance(-15-networks[i].signal_level, networks[i].frequency));
     }
-    console.log("distances = ",distances);
+    //console.log("distances = ",distances);
     var coordinate = ComputeCoordinate(points, distances);
     // console.log(coordinate[0], coordinate[1]);
     return Cases(coordinate);
