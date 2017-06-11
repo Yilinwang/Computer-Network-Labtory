@@ -1,3 +1,5 @@
+## Usage:
+```
 Compile:
 
 cd libsvm
@@ -6,4 +8,6 @@ cd python
 make
 
 Execute:
+
 python svm_predict signal_7 signal_12 signal_13
+```
