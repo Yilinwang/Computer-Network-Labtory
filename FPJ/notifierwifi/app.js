@@ -1,7 +1,6 @@
 var express = require('express');
 var async = require('async')
 var wifi = require('node-wifi');
-//var sleep = require('sleep');
 var func = require('./redirect');
 var app = express();
 
@@ -58,7 +57,6 @@ var websites2 = ['www.pcs.csie.ntu.edu.tw/views/courses/cnl/2017/2017_Lab1_Firew
 
 var ssid2website = {}
 var signal_levels = []
-//var sleep_seconds = 1
 
 function clearSigLev(){
     signal_levels = []
@@ -115,7 +113,6 @@ app.get('/scan1', function (req, res) {
         },
         function(newNetworks, callback){
             async.everySeries(array, function(c, callback){
-                //sleep.sleep(sleep_seconds)      // sleep sleep_seconds seconds
                 wifi.scan(function(err, networks) {
                     if (err) {
                         console.log(err);
@@ -186,7 +183,6 @@ app.get('/scan2', function (req, res) {
         },
         function(newNetworks, callback){
             async.everySeries(array, function(c, callback){
-                //sleep.sleep(sleep_seconds)      // sleep sleep_seconds seconds
                 wifi.scan(function(err, networks) {
                     if (err) {
                         console.log(err);
@@ -271,7 +267,6 @@ app.get('/scan3', function (req, res) {
         },
         function(newNetworks, callback){
             async.everySeries(array, function(c, callback){
-                //sleep.sleep(sleep_seconds)      // sleep sleep_seconds seconds
                 wifi.scan(function(err, networks) {
                     if (err) {
                         console.log(err);
